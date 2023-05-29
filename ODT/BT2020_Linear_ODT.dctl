@@ -1,0 +1,16 @@
+DEFINE_ACES_PARAM(IS_PARAMETRIC_ACES_TRANSFORM: 0)
+
+// Converts ACES to Canon Cinema Gamut Linear data with no RRT or tone mapping.
+//
+// Input: ACES AP0/Linear
+// Output: Canon Cinema Gamit/Linear
+
+__DEVICE__ float3 transform(int p_Width, int p_Height, int p_X, int p_Y, float p_R, float p_G, float p_B)
+{
+    // AP0 to Cinema Gamut
+    float rt = ( 1.5019458004f * p_R) + (-0.2735463821f * p_G) + (-0.2283994184f * p_B);
+    float gt = (-0.0760098786f * p_R) + ( 1.1844372592f * p_G) + (-0.1084273806f * p_B);
+    float bt = ( 0.0031486871f * p_R) + (-0.0287458753f * p_G) + ( 1.0255971883f * p_B);
+
+    return make_float3(rt ,gt, bt);
+}
